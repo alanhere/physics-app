@@ -314,41 +314,21 @@
     background: #E1F5EE; border-radius: var(--radius);
     padding: 8px 12px; margin-top: 0.5rem; margin-bottom: 0;
   }
-  .real-banner {
-    display: flex; align-items: center; gap: 10px;
-    background: #FEF3C7; border: 1.5px solid #F59E0B;
-    border-radius: var(--radius-lg); padding: 0.75rem 1rem;
-    font-size: 14px; font-weight: 600; color: #92400E;
-    margin-bottom: 1rem;
-  }
-  .real-icon { width: 20px; height: 20px; stroke: #F59E0B; fill: #FEF3C7; stroke-width: 2; flex-shrink: 0; }
-  .real-scatter-wrap { margin: 1rem 0; }
-  .real-points { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.75rem 0; }
-  .real-point { display: flex; align-items: flex-start; gap: 10px; }
-  .real-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
-  .real-dot.red { background: #E24B4A; }
-  .real-point p { font-size: 14px; line-height: 1.6; color: var(--text); margin: 0; }
-  .lobf-rule {
-    background: var(--bg-secondary); border: 0.5px solid var(--border-strong);
-    border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-top: 0.75rem;
-  }
-  .lobf-rule-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
-  .lobf-list { margin: 0; padding-left: 1.25rem; font-size: 14px; line-height: 1.9; color: var(--text); }
-  .lobf-list li { margin-bottom: 0.1rem; }
-  .derive-steps {
-    border: 0.5px solid var(--border-strong); border-radius: var(--radius-lg);
-    background: var(--bg-secondary); padding: 1rem 1.5rem;
-    margin: 0.75rem 0; display: flex; flex-direction: column; gap: 0.5rem;
-  }
-  .derive-line {
-    font-family: Georgia, serif; font-style: italic; font-size: 18px;
-    color: var(--text); padding: 2px 0;
-  }
-  .derive-line-answer {
-    font-size: 20px; font-weight: bold; color: var(--blue);
-    border-top: 1px solid var(--border); padding-top: 0.5rem; margin-top: 0.25rem;
-    display: flex; align-items: center; gap: 8px;
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   .real-banner {
     display: flex; align-items: center; gap: 10px;
     background: #FEF3C7; border: 1.5px solid #F59E0B;
@@ -445,7 +425,7 @@
     </div>
     <div class="app-header-text">
       <h1>Graph any physics experiment</h1>
-      <p>Revealing Patterns in Experimental Data </p>
+      <p>Revealing Patterns in Experimental Data</p>
     </div>
   </div>
 
@@ -569,11 +549,11 @@
     <div class="graphs-row">
       <div>
         <canvas id="cv3" height="220"></canvas>
-        <p class="glbl">s against t &mdash; a curve</p>
+        <p class="glbl">s against t: a curve</p>
       </div>
       <div>
         <canvas id="cv4" height="220"></canvas>
-        <p class="glbl">s against t² &mdash; a straight line</p>
+        <p class="glbl">s against t²: a straight line</p>
       </div>
     </div>
     <div class="info-box">The curve became a straight line simply by changing what we put on the x-axis. The data did not change. Only the choice of axis changed. Now we can find the slope, and the slope will tell us something physical.</div>
@@ -755,7 +735,7 @@
       <tbody>
         <tr>
           <td>s = vt</td><td>s</td><td>t</td>
-          <td><span class="sf"><span class="sfn">s₂&minus;s₁</span><span class="sfd">t₂&minus;t₁</span></span></td><td>v &mdash; speed</td>
+          <td><span class="sf"><span class="sfn">s₂&minus;s₁</span><span class="sfd">t₂&minus;t₁</span></span></td><td>v, speed</td>
         </tr>
         <tr class="hl">
           <td>s = ½at²</td><td>s</td><td>t²</td>
@@ -763,11 +743,11 @@
         </tr>
         <tr>
           <td>F = &minus;ks</td><td>F</td><td>s</td>
-          <td><span class="sf"><span class="sfn">F₂&minus;F₁</span><span class="sfd">s₂&minus;s₁</span></span></td><td>k &mdash; spring constant</td>
+          <td><span class="sf"><span class="sfn">F₂&minus;F₁</span><span class="sfd">s₂&minus;s₁</span></span></td><td>k, spring constant</td>
         </tr>
         <tr>
           <td>n = sin i / sin r</td><td>sin i</td><td>sin r</td>
-          <td><span class="sf"><span class="sfn">sin i₂&minus;sin i₁</span><span class="sfd">sin r₂&minus;sin r₁</span></span></td><td>n &mdash; refractive index</td>
+          <td><span class="sf"><span class="sfn">sin i₂&minus;sin i₁</span><span class="sfd">sin r₂&minus;sin r₁</span></span></td><td>n, refractive index</td>
         </tr>
         <tr>
           <td>T² = 4&pi;²<span class="sf"><span class="sfn">l</span><span class="sfd">g</span></span></td><td>T²</td><td>l</td>
@@ -781,8 +761,8 @@
       Is this a straight line?<br>
       If yes, note that y is directly proportional to x, use <span class="sf"><span class="sfn">y₂&minus;y₁</span><span class="sfd">x₂&minus;x₁</span></span> to find the slope, then ask what it represents physically.<br>
       If no, what transformation will give me a straight line?<br><br>
-      <strong>The physics changes. The method never does.</strong>
-      <br>Today, the slope gives you a way to calculate <strong>acceleration</strong>.<br> Next time, a different graph's slope will give you the <br><strong>refractive index of glass</strong>, <strong>the decay constant</strong> or the <strong>stiffness of a spring</strong><div class=""></div>    </div>
+      <strong>The physics changes. The formula never does.</strong>
+    </div>
     <div class="btn-row">
       <button class="btn pri" onclick="go(10)">Real-world data <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
     </div>
@@ -1234,8 +1214,8 @@ function toggleDerive(header){
   var canvas=document.getElementById('hook-curve');
   if(!canvas) return;
   var ctx=canvas.getContext('2d');
-  canvas.width=320; canvas.height=220;
-  var W=320, H=220;
+  var W=280, H=180;
+  canvas.width=W; canvas.height=H;
   var pad={top:18,right:18,bottom:36,left:44};
   var plotW=W-pad.left-pad.right;
   var plotH=H-pad.top-pad.bottom;
