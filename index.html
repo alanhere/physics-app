@@ -281,6 +281,9 @@
   }
 
   .qlbl { font-size: 13px; color: var(--text-secondary); margin-bottom: 4px; }
+  input[type=number] { -moz-appearance: textfield; }
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   .derive-box {
     border: 1px solid #bfdbfe;
     border-left: 4px solid var(--blue);
@@ -530,19 +533,10 @@
     <p class="body" style="margin-top:0.75rem">But the reasons we want a straight line go deeper than that:</p>
     <div class="info-box">
       <ol style="margin:0;padding-left:1.25rem;line-height:2">
-        <li>
-        <strong>A straight line is much easier to analyse.</strong> 
-        You can immediately see if data points lie on it, and the slope is constant everywhere, giving us a single, unchanging value to work with.
-    </li>
-    <li>
-        <strong>A straight line is the simplest relationship in mathematics.</strong> 
-        If we can manipulate our variables so that our data fits a straight line, our analysis becomes straightforward.
-    </li>
-    <li>
-        <strong>The goal of this experiment is to verify that <em>s</em> &prop; <em>t</em><sup>2</sup> and to find the acceleration, <em>a</em>.</strong> 
-        A straight line makes both of these achievable: we confirm direct proportionality if the graph is a straight line <em>passing through the origin</em>, and we can use the value of the slope to calculate the exact acceleration.
-    </li>
-   </ol>
+        <li><strong>A straight line is much easier to analyse.</strong> You can immediately see if data points lie on it, and the slope is constant everywhere, giving us a single, unchanging value to work with.</li>
+        <li><strong>A straight line is the simplest relationship in mathematics.</strong> If we can manipulate our variables so that our data fits a straight line, our analysis becomes straightforward.</li>
+        <li><strong>The goal of this experiment is to verify that <em>s</em> &prop; <em>t</em><sup>2</sup> and to find the acceleration, <em>a</em>.</strong> A straight line makes both of these achievable: we confirm direct proportionality if the graph is a straight line <em>passing through the origin</em>, and we can use the value of the slope to calculate the exact acceleration.</li>
+      </ol>
     </div>
     <div class="btn-row">
       <button class="btn pri" onclick="go(4)">What does the physics tell us? <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
@@ -810,7 +804,7 @@
       If yes, note that y is directly proportional to x, use <span class="sf"><span class="sfn">y₂&minus;y₁</span><span class="sfd">x₂&minus;x₁</span></span> to find the slope, then ask what it represents physically.<br>
       If no, what transformation will give me a straight line?<br><br>
       <strong>The physics changes. The formula never does.</strong>
-          <br>
+             <br>
 Today, the slope gives you a way to calculate <strong>acceleration</strong>.
      <br>Next time, a different graph's slope will give you the<strong> refractive index </strong>of glass, the <strong>threshold frequency</strong> of a metal, or the <strong>stiffness</strong> of a spring
 
@@ -827,8 +821,7 @@ Today, the slope gives you a way to calculate <strong>acceleration</strong>.
 
     <p class="body"><strong>The data in this lesson was idealised</strong>, meaning it was perfectly clean and free from error, so that the mathematical pattern was clear. In the school laboratory, using real equipment, your data will be messy.</p>
 
-    <p class="body">Factors such as friction on the ramp, air resistance, and/or small variations measuring equipment  mean your t² values will not lie exactly on a straight line.
-</p>
+    <p class="body">Factors such as friction on the ramp, air resistance, and/or small variations measuring equipment mean your t² values will not lie exactly on a straight line.</p>
 
 
     <div class="real-scatter-wrap">
