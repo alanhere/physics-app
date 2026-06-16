@@ -282,22 +282,49 @@
 
   .qlbl { font-size: 13px; color: var(--text-secondary); margin-bottom: 4px; }
   .derive-box {
-    border: 1.5px solid var(--blue); border-radius: var(--radius-lg);
-    margin-bottom: 1.25rem; overflow: hidden;
+    border: 1px solid #bfdbfe;
+    border-left: 4px solid var(--blue);
+    border-radius: var(--radius-lg);
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(24,95,165,0.07);
+    background: var(--bg);
   }
+  .derive-box summary { list-style: none; }
+  .derive-box summary::-webkit-details-marker { display: none; }
   .derive-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0.75rem 1rem; cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    padding: 0.9rem 1rem; cursor: pointer;
     background: #EBF3FC; color: var(--blue);
     font-size: 14px; font-weight: 600; user-select: none;
+    transition: background 0.15s;
   }
   .derive-header:hover { background: #dbeafe; }
-  .derive-arrow { width: 18px; height: 18px; stroke: var(--blue); fill: none; stroke-width: 2.5; transition: transform 0.2s; flex-shrink: 0; }
-  .derive-arrow.open { transform: rotate(180deg); }
+  .derive-header-icon {
+    width: 20px; height: 20px; flex-shrink: 0;
+    stroke: var(--blue); fill: none; stroke-width: 1.8;
+  }
+  .derive-header-text { flex: 1; }
+  .derive-arrow {
+    width: 16px; height: 16px; stroke: var(--blue); fill: none;
+    stroke-width: 2.5; flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+  details.derive-box[open] .derive-arrow { transform: rotate(180deg); }
   .derive-body {
-    padding: 1rem 1.25rem; font-size: 14px; line-height: 1.75;
-    color: var(--text); border-top: 1px solid #bfdbfe;
+    padding: 0 1rem;
+    font-size: 14px; line-height: 1.8;
+    color: var(--text);
+    border-top: 1px solid #bfdbfe;
     background: var(--bg);
+    /* smooth open/close via max-height animation */
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease, padding 0.25s ease;
+  }
+  details.derive-box[open] .derive-body {
+    max-height: 600px;
+    padding: 1rem 1rem;
   }
   .derive-body p { margin-bottom: 0.5rem; }
   .derive-eq {
@@ -497,11 +524,17 @@
   <!-- SCREEN 3: PROBLEM -->
   <div id="s3" class="screen">
     <div class="stag">Screen 4 of 11: the problem</div>
-    <p class="stitle">Why curves are frustrating</p>
-    <p class="body">The slope of a curve is different at every single point. The three coloured dashed lines show the slope at three different positions on the curve; they are all different values.</p>
+    <p class="stitle">Why we want a straight-line graph</p>
+    <p class="body">The slope of a curve changes at every point. The three coloured dashed lines show the slope at three different positions; they are all different values, which makes it impossible to identify a single physical quantity from the graph.</p>
     <canvas id="cv2" height="240"></canvas>
-    <p class="body" style="margin-top:0.75rem">In physics, the slope of a graph always represents something physical: a speed, a resistance, a refractive index. If the slope is different everywhere, we cannot identify that one physical quantity.</p>
-    <div class="info-box">We need a straight line. And to get a straight line, we need to think carefully about what the physics actually tells us.</div>
+    <p class="body" style="margin-top:0.75rem">But the reasons we want a straight line go deeper than that:</p>
+    <div class="info-box">
+      <ol style="margin:0;padding-left:1.25rem;line-height:2">
+        <li>A straight line is much easier to analyse. You can immediately see if points lie on it, and the slope is constant everywhere, giving a single value that represents a physical quantity.</li>
+        <li>A straight line is the simplest relationship in mathematics. If we can show our data fits a straight line, the analysis becomes straightforward.</li>
+        <li>The goal of this experiment is to verify that s ∝ t² and to find the acceleration a. A straight line makes both of these straightforward; we confirm proportionality from the shape of the graph and read off the acceleration from the slope.</li>
+      </ol>
+    </div>
     <div class="btn-row">
       <button class="btn pri" onclick="go(4)">What does the physics tell us? <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
     </div>
@@ -513,6 +546,29 @@
     <p class="stitle">What the physics tells us</p>
     <p class="body">For a ball accelerating uniformly from rest, the relationship between distance and time is:</p>
     <div class="formula-highlight">s = ½at²</div>
+
+    <details class="derive-box">
+      <summary class="derive-header">
+        <svg class="derive-header-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span class="derive-header-text">Where does s = ½at² come from?</span>
+        <svg viewBox="0 0 24 24" class="derive-arrow" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="derive-body">
+        <p>If you open your Formulas and Tables to the Mechanics section, you will find the kinematic equation for displacement:</p>
+        <div class="derive-eq">s = ut + ½at²</div>
+        <p>In this experiment, the ball is released from a stationary position. Because it starts from rest, its initial velocity is exactly zero, so u&nbsp;=&nbsp;0.</p>
+        <p>Substituting u&nbsp;=&nbsp;0 into the formula:</p>
+        <div class="derive-eq">s = (0 &times; t) + ½at²</div>
+        <p>The first term disappears completely, simplifying the model to:</p>
+        <div class="derive-eq derive-eq-final">s = ½at²</div>
+        <p class="derive-note">This is the exact reason why we plot s on the vertical axis against t² on the horizontal axis.</p>
+      </div>
+    </details>
+
     <p class="body">This means s is directly proportional to t², not to t itself. So plotting s against t gives a curve. But plotting s against t² should give a straight line through the origin.</p>
     <p class="body">First, we need to calculate the t² values. Fill in the middle column below.</p>
     <table class="dt">
@@ -556,7 +612,7 @@
         <p class="glbl">s against t²: a straight line</p>
       </div>
     </div>
-    <div class="info-box">The curve became a straight line simply by changing what we put on the x-axis. The data did not change. Only the choice of axis changed. Now we can find the slope, and the slope will tell us something physical.</div>
+    <div class="info-box">The curve became a straight line simply by changing what we put on the x-axis. The data did not change. Only the choice of axis changed. Now we can find the slope, and the slope will tell us something physical. In this experiment, the straight line confirms that s ∝ t², and from the equation s = ½at², the slope of the graph allows us to calculate the acceleration of the ball.</div>
     <div class="btn-row">
       <button class="btn pri" onclick="go(6)">Find the slope <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
     </div>
@@ -567,23 +623,6 @@
     <div class="stag">Screen 7 of 11: the slope</div>
     <p class="stitle">Calculating the slope</p>
 
-    <div class="derive-box">
-      <div class="derive-header" onclick="toggleDerive(this)">
-        <span>Where does s&nbsp;=&nbsp;½at² come from?</span>
-        <svg viewBox="0 0 24 24" class="derive-arrow"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="derive-body" style="display:none">
-        <p>If you open your official Log Tables (Formulas and Tables booklet) to the Mechanics section, you will find the kinematic equation for displacement:</p>
-        <div class="derive-eq">s = ut + ½at²</div>
-        <p>In this experiment, the ball is released from a stationary position. Because it starts from rest, its initial velocity is exactly zero, so u&nbsp;=&nbsp;0.</p>
-        <p>Substituting u&nbsp;=&nbsp;0 into the formula:</p>
-        <div class="derive-eq">s = (0 &times; t) + ½at²</div>
-        <p>The first term disappears completely, simplifying the model to:</p>
-        <div class="derive-eq derive-eq-final">s = ½at²</div>
-        <p class="derive-note">This is the exact reason why we plot s on the vertical axis against t² on the horizontal axis.</p>
-      </div>
-    </div>
-
     <p class="body">Here is the straight line graph with two points marked with stars. We use the slope formula from coordinate geometry:</p>
     <div class="slope-formula-box">
       <p>The general formula you already know:</p>
@@ -592,8 +631,8 @@
       <div class="formula">slope = <span class="sf"><span class="sfn">s₂ &minus; s₁</span><span class="sfd">t₂² &minus; t₁²</span></span></div>
     </div>
     <div class="points-box">
-      <strong>Point 1 &nbsp;(x₁, y₁):</strong>&nbsp; t₁² = 1 s²,&nbsp; s₁ = 0.5 m<br>
-      <strong>Point 2 &nbsp;(x₂, y₂):</strong>&nbsp; t₂² = 25 s²,&nbsp; s₂ = 12.5 m
+      <strong>Point 1 &nbsp;(x₁, y₁):</strong>&nbsp; t₁² = 0 s²,&nbsp; s₁ = 0 m &nbsp;<em style="font-size:13px;color:var(--text-secondary)">(the origin, since the ball starts from rest)</em><br>
+      <strong>Point 2 &nbsp;(x₂, y₂):</strong>&nbsp; t₂² = 20 s²,&nbsp; s₂ = 10 m &nbsp;<em style="font-size:13px;color:var(--text-secondary)">(read from the line, not from the data table)</em>
     </div>
     <canvas id="cv5" height="230"></canvas>
     <p class="body" style="margin-top:0.75rem">Substitute the values into the formula step by step:</p>
@@ -608,7 +647,7 @@
       <span class="tick" id="tk-den">✓</span>
     </div>
     <div class="irow">
-      <label>slope = <span class="sf"><span class="sfn">12</span><span class="sfd">24</span></span> =</label>
+      <label>slope = <span class="sf"><span class="sfn">10</span><span class="sfd">20</span></span> =</label>
       <input type="text" id="i-sl" placeholder="e.g. 3/4" oninput="chkSlope()" style="width:90px">
       <span class="tick" id="tk-sl">✓</span>
     </div>
@@ -621,12 +660,12 @@
   <!-- SCREEN 7: MEANING -->
   <div id="s7" class="screen">
     <div class="stag">Screen 8 of 11: the meaning</div>
-    <p class="stitle">What does the slope represent physically?</p>
+    <p class="stitle">Match s = ½at² to y = mx + c</p>
     <p class="body">The slope of the graph is ½. Now let's see how the physics equation maps onto the straight line formula y = mx + c.</p>
 
     <div id="mapping-steps">
       <div id="map-step-1" class="map-step">
-        <p class="body" style="margin-bottom:0.5rem">Both equations:</p>
+        <p class="body" style="margin-bottom:0.5rem">Both equations side by side:</p>
         <div class="map-box">
           <div class="map-eq-row">
             <span class="map-eq-main">s&nbsp;=&nbsp;</span><span class="map-frac"><span class="map-num">1</span><span class="map-den">2</span></span><span class="map-eq-main">at²</span>
@@ -683,9 +722,9 @@
     </div>
 
     <div id="after-mapping" style="display:none;margin-top:1rem">
-      <p class="body">The mapping shows that slope = ½ a. Rearranging to find a:</p>
+      <p class="body">The mapping shows that slope = ½a. Rearranging to find a:</p>
       <div class="derive-steps">
-        <div class="derive-line">slope = ½ a</div>
+        <div class="derive-line">slope = ½a</div>
         <div class="derive-line">2 × slope = a</div>
         <div class="derive-line">a = 2 × slope</div>
         <div class="derive-line">a = 2 × ½</div>
@@ -706,9 +745,9 @@
     <div class="ritual-card">
       <p>We plotted <span class="rb" id="rb1">___</span> against <span class="rb" id="rb2">___</span>.</p>
       <p>We got a straight line through the origin.</p>
-      <p>This means <span class="rb" id="rb3">___</span> is directly proportional to <span class="rb" id="rb4">___</span>.</p>
-      <p>The slope was <span class="rb" id="rb5">___</span>.</p>
-      <p>The slope represents <span class="rb" id="rb6">___</span>.</p>
+      <p>This means <span class="rb" id="rb3">___</span>.</p>
+      <p>The slope was <span class="rb" id="rb4">___</span>.</p>
+      <p>The slope represents <span class="rb" id="rb5">___</span>.</p>
     </div>
     <div id="ritual-area"></div>
     <div class="fb" id="fb-s8"></div>
@@ -757,16 +796,12 @@
     </table>
     <p class="body">Notice that in every case the slope formula is exactly the same: <span class="sf"><span class="sfn">y₂&minus;y₁</span><span class="sfd">x₂&minus;x₁</span></span>. What changes is only what y and x represent physically.</p>
     <div class="info-box">
-      <strong> The question every time you have a graph:</strong><br><br>
+      <strong>Your question every time you get a graph:</strong><br><br>
       Is this a straight line?<br>
       If yes, note that y is directly proportional to x, use <span class="sf"><span class="sfn">y₂&minus;y₁</span><span class="sfd">x₂&minus;x₁</span></span> to find the slope, then ask what it represents physically.<br>
       If no, what transformation will give me a straight line?<br><br>
-      <strong>The physics changes. The method never does.</strong>
-     <br>
-Today, the slope gives you a way to calculate <strong>acceleration</strong>.
-     <br>Next time, a different graph's slope will give you the<strong> refractive index </strong>of glass, the <strong>threshold frequency</strong> of a metal, or the <strong>stiffness</strong> of a spring
+      <strong>The physics changes. The formula never does.</strong>
     </div>
-   
     <div class="btn-row">
       <button class="btn pri" onclick="go(10)">Real-world data <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
     </div>
@@ -790,11 +825,15 @@ Today, the slope gives you a way to calculate <strong>acceleration</strong>.
     <div class="real-points">
       <div class="real-point">
         <div class="real-dot red"></div>
-        <p>Your points may not line up perfectly.</p>
+        <p>Your points may not line up perfectly on the straight line.</p>
       </div>
       <div class="real-point">
         <div class="real-dot red"></div>
-        <p>The line might not pass exactly through the origin (0,&nbsp;0).</p>
+        <p>In this experiment, physics tells us the line <strong>must</strong> pass through (0,&nbsp;0); the ball starts from rest at zero distance and zero time. Draw your line of best fit through the origin.</p>
+      </div>
+      <div class="real-point">
+        <div class="real-dot red"></div>
+        <p>In other experiments where there is no such physical reason, the line of best fit may not pass through the origin, and you should not force it to do so.</p>
       </div>
     </div>
 
@@ -807,6 +846,7 @@ Today, the slope gives you a way to calculate <strong>acceleration</strong>.
         <li>Use a ruler and draw one straight line through the general trend of the points.</li>
         <li>Aim to have roughly equal numbers of points above and below the line.</li>
         <li>The line does not need to pass through any specific data point.</li>
+        <li>Do not connect the dots.</li>
         <li>Calculate the slope using two points on the <em>line</em>, not two data points from the table.</li>
       </ul>
     </div>
@@ -896,17 +936,17 @@ function chkSlope(){
   var iNum=document.getElementById('i-num');
   var iDen=document.getElementById('i-den');
   var iSl=document.getElementById('i-sl');
-  if(num===12){iNum.classList.add('ok');iNum.classList.remove('er');document.getElementById('tk-num').classList.add('show');slopeDone.num=true;}
+  if(num===10){iNum.classList.add('ok');iNum.classList.remove('er');document.getElementById('tk-num').classList.add('show');slopeDone.num=true;}
   else if(!isNaN(num)&&String(document.getElementById('i-num').value).length>0){iNum.classList.remove('ok');iNum.classList.add('er');document.getElementById('tk-num').classList.remove('show');slopeDone.num=false;}
-  if(den===24){iDen.classList.add('ok');iDen.classList.remove('er');document.getElementById('tk-den').classList.add('show');slopeDone.den=true;}
+  if(den===20){iDen.classList.add('ok');iDen.classList.remove('er');document.getElementById('tk-den').classList.add('show');slopeDone.den=true;}
   else if(!isNaN(den)&&String(document.getElementById('i-den').value).length>0){iDen.classList.remove('ok');iDen.classList.add('er');document.getElementById('tk-den').classList.remove('show');slopeDone.den=false;}
   var slRaw=document.getElementById('i-sl').value.trim().replace(/\s/g,'');
-  var slCorrect=(slRaw==='1/2'||slRaw==='½'||slRaw==='0.5'||slRaw==='1÷2');
+  var slCorrect=(slRaw==='1/2'||slRaw==='½'||slRaw==='0.5'||slRaw==='.5'||slRaw==='1÷2'||slRaw==='10/20');
   if(slCorrect){iSl.classList.add('ok');iSl.classList.remove('er');document.getElementById('tk-sl').classList.add('show');slopeDone.sl=true;}
   else if(slRaw.length>0){iSl.classList.remove('ok');iSl.classList.add('er');document.getElementById('tk-sl').classList.remove('show');slopeDone.sl=false;}
   if(slopeDone.num&&slopeDone.den&&slopeDone.sl){
     var fb=document.getElementById('fb-s6');
-    fb.textContent='Correct. (s₂ − s₁) = 12.5 − 0.5 = 12. (t₂² − t₁²) = 25 − 1 = 24. Slope = 12 ÷ 24 = ½. This is exactly the same formula from coordinate geometry, just with s and t² as your y and x.';
+    fb.textContent='Correct. Using the origin (0, 0) as Point 1 and (20, 10) as Point 2, both read from the line: (s₂ − s₁) = 10 − 0 = 10. (t₂² − t₁²) = 20 − 0 = 20. Slope = 10 ÷ 20 = ½. Note: we read Point 2 from the line of best fit, not from the data table.';
     fb.className='fb ok show';
     document.getElementById('next-s6').style.display='flex';
   }
@@ -934,10 +974,9 @@ function buildRitual(){
   var cfg=[
     {id:'rb1',lbl:'Blank 1: what did we plot on the y-axis?',opts:['distance s','time t','time squared t²','acceleration a'],correct:'distance s'},
     {id:'rb2',lbl:'Blank 2: what did we plot on the x-axis?',opts:['time t','time squared t²','distance s','velocity v'],correct:'time squared t²'},
-    {id:'rb3',lbl:'Blank 3: which variable is proportional to which? (y is proportional to...)',opts:['distance s','time squared t²','time t','acceleration a'],correct:'distance s'},
-    {id:'rb4',lbl:'Blank 4: ...is directly proportional to?',opts:['time squared t²','time t','distance s','velocity v'],correct:'time squared t²'},
-    {id:'rb5',lbl:'Blank 5: what was the slope value (include units)?',opts:['½ ms⁻²','1 ms⁻²','2 ms⁻²','12 m'],correct:'½ ms⁻²'},
-    {id:'rb6',lbl:'Blank 6: what does the slope represent?',opts:['½ of acceleration','the speed','the distance','the time'],correct:'½ of acceleration'},
+    {id:'rb3',lbl:'Blank 3: select the correct proportionality statement',opts:['s ∝ t²','s ∝ t','t² ∝ s','s ∝ a'],correct:'s ∝ t²'},
+    {id:'rb4',lbl:'Blank 4: what was the slope value (include units)?',opts:['½ ms⁻²','1 ms⁻²','2 ms⁻²','12 m'],correct:'½ ms⁻²'},
+    {id:'rb5',lbl:'Blank 5: what does the slope represent?',opts:['½ of acceleration','the speed','the distance','the time'],correct:'½ of acceleration'},
   ];
   var area=document.getElementById('ritual-area');
   area.innerHTML='';
@@ -1049,11 +1088,11 @@ function buildCv5(){
     data:{datasets:[
       {data:t2D.map(function(t2,i){return{x:t2,y:sD[i]};}),borderColor:'#185FA5',backgroundColor:'#185FA5',pointRadius:6},
       {data:[{x:0,y:0},{x:26,y:13}],type:'line',borderColor:'#185FA5',backgroundColor:'transparent',pointRadius:0,borderWidth:2.5},
-      {data:[{x:1,y:0.5},{x:25,y:12.5}],borderColor:'#1D9E75',backgroundColor:'#1D9E75',pointRadius:12,pointStyle:'star'}
+      {data:[{x:0,y:0},{x:20,y:10}],borderColor:'#1D9E75',backgroundColor:'#1D9E75',pointRadius:12,pointStyle:'star'}
     ]},
     options:{
       responsive:true,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){if(c.dataset.pointStyle==='star') return '(t²='+c.parsed.x+', s='+c.parsed.y+')'; return '';}}}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){if(c.dataset.pointStyle==='star') return c.parsed.x===0?'Origin (0, 0)':'Read from line: (t²='+c.parsed.x+', s='+c.parsed.y+')'; return '';}}}},
       scales:{x:{title:{display:true,text:'t² (s²)'},min:0,max:27},y:{title:{display:true,text:'s (m)'},min:0,max:14}}
     }
   });
@@ -1120,11 +1159,10 @@ function resetApp(){
     var step=document.getElementById('map-step-'+i);
     if(step){ step.style.display=(i===1)?'block':'none'; }
   }
-  document.querySelectorAll('.derive-arrow').forEach(function(a){ a.classList.remove('open'); });
-  document.querySelectorAll('.derive-body').forEach(function(b){ b.style.display='none'; });
+  document.querySelectorAll('details.derive-box').forEach(function(d){ d.removeAttribute('open'); });
 
   // Clear ritual card spans
-  ['rb1','rb2','rb3','rb4','rb5','rb6'].forEach(function(id){
+  ['rb1','rb2','rb3','rb4','rb5'].forEach(function(id){
     var sp=document.getElementById(id);
     if(sp){ sp.textContent='___'; sp.classList.remove('filled'); }
   });
@@ -1201,17 +1239,7 @@ function drawRealScatter(){
   ctx.fillStyle='#7f1d1d'; ctx.fillText('data points',px(14)+6,pad.top+9);
 }
 
-function toggleDerive(header){
-  var body=header.nextElementSibling;
-  var arrow=header.querySelector('.derive-arrow');
-  if(body.style.display==='none'){
-    body.style.display='block';
-    arrow.classList.add('open');
-  } else {
-    body.style.display='none';
-    arrow.classList.remove('open');
-  }
-}
+/* toggleDerive removed - now uses native <details> element */
 
 (function drawHookCurve(){
   var canvas=document.getElementById('hook-curve');
