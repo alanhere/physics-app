@@ -530,10 +530,19 @@
     <p class="body" style="margin-top:0.75rem">But the reasons we want a straight line go deeper than that:</p>
     <div class="info-box">
       <ol style="margin:0;padding-left:1.25rem;line-height:2">
-        <li>A straight line is much easier to analyse. You can immediately see if points lie on it, and the slope is constant everywhere, giving a single value that represents a physical quantity.</li>
-        <li>A straight line is the simplest relationship in mathematics. If we can show our data fits a straight line, the analysis becomes straightforward.</li>
-        <li>The goal of this experiment is to verify that s ∝ t² and to find the acceleration a. A straight line makes both of these straightforward; we confirm proportionality from the shape of the graph and read off the acceleration from the slope.</li>
-      </ol>
+        <li>
+        <strong>A straight line is much easier to analyse.</strong> 
+        You can immediately see if data points lie on it, and the slope is constant everywhere, giving us a single, unchanging value to work with.
+    </li>
+    <li>
+        <strong>A straight line is the simplest relationship in mathematics.</strong> 
+        If we can manipulate our variables so that our data fits a straight line, our analysis becomes straightforward.
+    </li>
+    <li>
+        <strong>The goal of this experiment is to verify that <em>s</em> &prop; <em>t</em><sup>2</sup> and to find the acceleration, <em>a</em>.</strong> 
+        A straight line makes both of these achievable: we confirm direct proportionality if the graph is a straight line <em>passing through the origin</em>, and we can use the value of the slope to calculate the exact acceleration.
+    </li>
+   </ol>
     </div>
     <div class="btn-row">
       <button class="btn pri" onclick="go(4)">What does the physics tell us? <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
@@ -812,9 +821,10 @@
     <div class="stag">Screen 11 of 11: real-world data</div>
     <p class="stitle">From ideal to real</p>
 
-    <p class="body"><strong>The data in this lesson was idealised</strong>, meaning it was perfectly clean and free from error, so that the mathematical pattern was clear. In the school lab, using real equipment, your data will be messy.</p>
+    <p class="body"><strong>The data in this lesson was idealised</strong>, meaning it was perfectly clean and free from error, so that the mathematical pattern was clear. In the school laboratory, using real equipment, your data will be messy.</p>
 
-    <p class="body">Factors such as friction on the ramp, air resistance, and/or small variations measuring equipment  mean your t² values will not lie exactly on a straight line.</p>
+    <p class="body">Factors such as friction on the ramp, air resistance, and/or small variations measuring equipment  mean your t² values will not lie exactly on a straight line.
+</p>
 
 
     <div class="real-scatter-wrap">
@@ -1078,23 +1088,62 @@ function buildCv34(){
   });
 }
 
+function drawStar(ctx, cx, cy, r, color){
+  ctx.save();
+  ctx.fillStyle=color;
+  ctx.strokeStyle='white';
+  ctx.lineWidth=1.5;
+  ctx.beginPath();
+  var spikes=6, outerR=r, innerR=r*0.45;
+  for(var i=0;i<spikes*2;i++){
+    var angle=Math.PI/spikes*i - Math.PI/2;
+    var rad=i%2===0?outerR:innerR;
+    var x=cx+Math.cos(angle)*rad;
+    var y=cy+Math.sin(angle)*rad;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+}
+
 function buildCv5(){
   if(charts.cv5) return;
   var sD=[0.5,2,4.5,8,12.5];
   var t2D=[1,4,9,16,25];
   var ctx=document.getElementById('cv5').getContext('2d');
+
+  var starPlugin={
+    id:'starOrigin',
+    afterDraw:function(chart){
+      var xScale=chart.scales.x;
+      var yScale=chart.scales.y;
+      var cx=xScale.getPixelForValue(0);
+      var cy=yScale.getPixelForValue(0);
+      drawStar(chart.ctx, cx, cy, 13, '#1D9E75');
+    }
+  };
+
   charts.cv5=new Chart(ctx,{
     type:'scatter',
     data:{datasets:[
       {data:t2D.map(function(t2,i){return{x:t2,y:sD[i]};}),borderColor:'#185FA5',backgroundColor:'#185FA5',pointRadius:6},
       {data:[{x:0,y:0},{x:26,y:13}],type:'line',borderColor:'#185FA5',backgroundColor:'transparent',pointRadius:0,borderWidth:2.5},
-      {data:[{x:0,y:0},{x:20,y:10}],borderColor:'#1D9E75',backgroundColor:'#1D9E75',pointRadius:12,pointStyle:'star'}
+      {data:[{x:20,y:10}],borderColor:'#1D9E75',backgroundColor:'#1D9E75',pointRadius:13,pointStyle:'star',pointHoverRadius:15}
     ]},
     options:{
       responsive:true,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){if(c.dataset.pointStyle==='star') return c.parsed.x===0?'Origin (0, 0)':'Read from line: (t²='+c.parsed.x+', s='+c.parsed.y+')'; return '';}}}},
-      scales:{x:{title:{display:true,text:'t² (s²)'},min:0,max:27},y:{title:{display:true,text:'s (m)'},min:0,max:14}}
-    }
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){
+        if(c.datasetIndex===2) return 'Read from line: (t²=20, s=10)';
+        return '';
+      }}}},
+      scales:{
+        x:{title:{display:true,text:'t² (s²)'},min:0,max:27},
+        y:{title:{display:true,text:'s (m)'},min:0,max:14}
+      }
+    },
+    plugins:[starPlugin]
   });
 }
 
